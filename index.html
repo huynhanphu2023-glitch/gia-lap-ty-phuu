@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cà Mau Empire - Mô Phỏng Kinh Tế (Phần 1)</title>
+    <title>Cà Mau Empire - Mô Phỏng Kinh Tế (Phần 2)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>CÀ MAU EMPIRE - PHẦN 1: CORE ENGINE</h1>
+        <h1>CÀ MAU EMPIRE - PHẦN 2: THẾ GIỚI & NPC</h1>
         <div class="macro-ticker">
             <div>Thời gian: <span id="stat-date" class="ticker-val">Đang tải...</span></div>
             <div>Tick: <span id="stat-tick" class="ticker-val">0</span></div>
@@ -17,7 +17,7 @@
     </header>
 
     <div class="main-container">
-        <!-- Cột trái: Thông tin tài chính cá nhân & điều khiển thời gian -->
+        <!-- Cột trái: Thông tin tài chính cá nhân, thế giới & điều khiển thời gian -->
         <div class="column">
             <div class="panel">
                 <h3>👤 Tài Chính Cá Nhân (Player)</h3>
@@ -26,6 +26,13 @@
                 <div class="btn-group" style="margin-top: 10px;">
                     <button class="btn btn-red" id="btn-spend-living">Chi tiêu sinh hoạt (-500K)</button>
                 </div>
+            </div>
+
+            <div class="panel">
+                <h3>🌍 Thế Giới & Dân Cư (Cà Mau)</h3>
+                <div class="stat-row"><span>Tổng dân số:</span> <span id="stat-population" class="stat-val">500 người</span></div>
+                <div class="stat-row"><span>Khu vực hoạt động:</span> <span class="stat-val">Phường 1 & Phường 8</span></div>
+                <div class="stat-row"><span>NPC tiêu biểu:</span> <span id="stat-npc-count" class="stat-val">20 đang hoạt động</span></div>
             </div>
 
             <div class="panel">
@@ -41,12 +48,12 @@
             </div>
         </div>
 
-        <!-- Cột phải: Nhật ký sự kiện hệ thống Core Engine -->
+        <!-- Cột phải: Nhật ký sự kiện hệ thống -->
         <div class="column flex-grow">
             <div class="panel full-height">
                 <h3>📜 Nhật Ký Sự Kiện Hệ Thống (Event Log)</h3>
                 <div id="log-container" class="log-container">
-                    <div class="log-item">[Hệ thống]: Khởi động thành công GameState, EventBus và GameEngine.</div>
+                    <div class="log-item">[Hệ thống]: Khởi động thành công Phần 2 (Thế giới & NPC).</div>
                 </div>
             </div>
         </div>
@@ -55,6 +62,7 @@
     <script src="js/state.js"></script>
     <script src="js/events.js"></script>
     <script src="js/engine.js"></script>
+    <script src="js/npc.js"></script>
     <script src="js/ui.js"></script>
 </body>
 </html>
