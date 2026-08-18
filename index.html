@@ -3,95 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khởi Nghiệp Tại Cà Mau - Economic Simulator</title>
+    <title>Cà Mau Economic Empire - Tycoon Simulator</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --accent: #27ae60;
-            --bg: #f4f6f7;
-            --card-bg: #ffffff;
-            --text: #333333;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --accent-green: #10b981;
+            --accent-blue: #3b82f6;
+            --accent-gold: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        * {
+            box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
         }
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
         }
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
         }
         header h1 {
-            color: var(--primary);
-            margin-bottom: 5px;
+            margin: 0;
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .dashboard {
+        header p {
+            color: var(--text-muted);
+            margin: 5px 0 0 0;
+            font-size: 0.95rem;
+        }
+        .grid-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             margin-bottom: 20px;
         }
         .card {
             background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
         }
         .card h3 {
             margin-top: 0;
-            color: var(--primary);
             font-size: 1.1rem;
-            border-bottom: 2px solid var(--bg);
-            padding-bottom: 8px;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            font-size: 0.95rem;
         }
         .stat-value {
-            font-size: 1.5rem;
             font-weight: bold;
-            color: var(--accent);
+            color: var(--accent-green);
         }
-        .actions {
+        .actions-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
             margin-bottom: 20px;
         }
         button {
-            background-color: var(--primary);
+            background-color: var(--accent-blue);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
+            padding: 14px 18px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: background 0.2s;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
         button:hover {
-            background-color: #34495e;
+            background-color: #2563eb;
+            transform: translateY(-2px);
         }
         button:active {
-            transform: scale(0.98);
+            transform: translateY(0);
+        }
+        button.secondary {
+            background-color: #059669;
+        }
+        button.secondary:hover {
+            background-color: #047857;
         }
         .log-box {
-            background: var(--card-bg);
+            background: #020617;
+            border: 1px solid var(--border);
             padding: 15px;
             border-radius: 8px;
-            height: 150px;
+            height: 180px;
             overflow-y: auto;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            font-family: monospace;
-            font-size: 0.9rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #38bdf8;
         }
         .log-item {
-            margin-bottom: 5px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 3px;
+            margin-bottom: 6px;
+            border-bottom: 1px dashed #1e293b;
+            padding-bottom: 4px;
         }
     </style>
 </head>
@@ -99,59 +133,69 @@
 
     <div class="container">
         <header>
-            <h1>TP. Cà Mau - Mô Phỏng Kinh Tế</h1>
-            <p>Thế giới mở, tự do định đoạt thị trường</p>
+            <h1>THÀNH PHỐ CÀ MAU - EMPIRE SIMULATOR</h1>
+            <p>Hệ thống kinh tế vĩ mô thời gian thực • Persistent World</p>
         </header>
 
         <!-- Bảng thông số chính -->
-        <div class="dashboard">
+        <div class="grid-layout">
             <div class="card">
-                <h3>Tài Chính Cá Nhân</h3>
-                <p>Tiền mặt: <span id="money" class="stat-value">10,000,000</span> VNĐ</p>
+                <h3>💼 Tài Chính Cá Nhân</h3>
+                <div class="stat-row"><span>Tiền mặt:</span> <span id="money" class="stat-value">10,000,000 VNĐ</span></div>
+                <div class="stat-row"><span>Định giá tài sản:</span> <span id="netWorth" class="stat-value">10,000,000 VNĐ</span></div>
+                <div class="stat-row"><span>Uy tín cá nhân:</span> <span id="reputation" class="stat-value">50 ⭐</span></div>
             </div>
+
             <div class="card">
-                <h3>Doanh Nghiệp (Xưởng Lương Thực)</h3>
-                <p>Cơ sở: <span id="factories" class="stat-value">0</span></p>
-                <p>Hàng tồn kho: <span id="inventory" class="stat-value">0</span> sản phẩm</p>
+                <h3>🏭 Vận Hành Doanh Nghiệp</h3>
+                <div class="stat-row"><span>Xưởng sản xuất tại Cà Mau:</span> <span id="factories" class="stat-value">0</span></div>
+                <div class="stat-row"><span>Hàng tồn kho (Lương thực):</span> <span id="inventory" class="stat-value">0 sp</span></div>
+                <div class="stat-row"><span>Công suất tổ đội:</span> <span id="capacity" class="stat-value">0 sp/lần</span></div>
             </div>
+
             <div class="card">
-                <h3>Thị Trường Cà Mau (NPC)</h3>
-                <p>Nhu cầu mua mỗi ngày: <span id="npcDemand" class="stat-value">50</span></p>
-                <p>Giá thị trường: <span id="marketPrice" class="stat-value">15,000</span> VNĐ/sp</p>
+                <h3>📈 Thị Trường Cà Mau (NPC)</h3>
+                <div class="stat-row"><span>Nhu cầu tiêu dùng hàng ngày:</span> <span id="npcDemand" class="stat-value">50 đơn vị</span></div>
+                <div class="stat-row"><span>Giá thị trường hiện tại:</span> <span id="marketPrice" class="stat-value">15,000 VNĐ</span></div>
+                <div class="stat-row"><span>Trạng thái thị trường:</span> <span id="marketStatus" style="color: var(--accent-gold);">Ổn định</span></div>
             </div>
         </div>
 
         <!-- Các hành động của người chơi -->
-        <div class="actions">
-            <button onclick="buildFactory()">Xây Xưởng Sản Xuất (5,000,000 VNĐ)</button>
-            <button onclick="produceGoods()">Sản Xuất Hàng Hóa (+10 sp)</button>
-            <button onclick="sellGoods()">Bán Hàng Cho NPC</button>
+        <div class="actions-container">
+            <button onclick="buildFactory()">🏗️ Xây Xưởng (5,000,000 VNĐ)</button>
+            <button onclick="produceGoods()" class="secondary">⚙️ Sản Xuất Lương Thực</button>
+            <button onclick="sellGoods()" style="background-color: #d97706;">🤝 Bán Hàng Cho NPC</button>
         </div>
 
         <!-- Nhật ký thị trường -->
         <div class="card">
-            <h3>Nhật Ký Vận Hành Thị Trường</h3>
+            <h3>📜 Nhật Ký Giao Dịch & Biến động Thị Trường</h3>
             <div id="logBox" class="log-box">
-                <div class="log-item">[Hệ thống]: Chào mừng bạn đến với Cà Mau. Hãy xây dựng cơ sở sản xuất đầu tiên để bắt đầu!</div>
+                <div class="log-item">[Hệ thống]: Khởi tạo thành công khu vực Cà Mau. Thị trường đang chờ nhà đầu tư bước vào...</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Dữ liệu trạng thái game
         let state = {
             money: 10000000,
             factories: 0,
             inventory: 0,
             marketPrice: 15000,
-            npcDemand: 50
+            npcDemand: 50,
+            reputation: 50
         };
 
         function updateUI() {
-            document.getElementById('money').innerText = state.money.toLocaleString();
+            let netWorth = state.money + (state.factories * 4000000) + (state.inventory * state.marketPrice);
+            document.getElementById('money').innerText = state.money.toLocaleString() + " VNĐ";
+            document.getElementById('netWorth').innerText = netWorth.toLocaleString() + " VNĐ";
             document.getElementById('factories').innerText = state.factories;
-            document.getElementById('inventory').innerText = state.inventory;
-            document.getElementById('marketPrice').innerText = state.marketPrice.toLocaleString();
+            document.getElementById('inventory').innerText = state.inventory + " sp";
+            document.getElementById('capacity').innerText = (state.factories * 10) + " sp/lần";
+            document.getElementById('marketPrice').innerText = state.marketPrice.toLocaleString() + " VNĐ";
+            document.getElementById('reputation').innerText = state.reputation + " ⭐";
         }
 
         function log(message) {
@@ -166,10 +210,10 @@
             if (state.money >= cost) {
                 state.money -= cost;
                 state.factories += 1;
-                log(`Thành công! Đã xây dựng thêm 1 xưởng sản xuất tại khu vực ven TP. Cà Mau.`);
+                log(`Đầu tư thành công: Xây dựng thêm 1 xưởng sản xuất tại khu công nghiệp Cà Mau.`);
                 updateUI();
             } else {
-                log(`Cảnh báo: Bạn không đủ tiền để xây xưởng! Cần ${cost.toLocaleString()} VNĐ.`);
+                log(`Lỗi giao dịch: Không đủ tiền mặt! Cần ít nhất ${cost.toLocaleString()} VNĐ.`);
             }
         }
 
@@ -177,10 +221,10 @@
             if (state.factories > 0) {
                 let produced = state.factories * 10;
                 state.inventory += produced;
-                log(`Sản xuất: Các xưởng tại Cà Mau vừa cho ra lò ${produced} sản phẩm lương thực.`);
+                log(`Sản xuất: Các dây chuyền tại Cà Mau hoạt động hết công suất, cung cấp ${produced} sản phẩm.`);
                 updateUI();
             } else {
-                log(`Cảnh báo: Bạn chưa có xưởng sản xuất nào cả! Hãy xây xưởng trước.`);
+                log(`Cảnh báo: Bạn chưa sở hữu xưởng sản xuất nào tại Cà Mau!`);
             }
         }
 
@@ -190,14 +234,14 @@
                 let revenue = sold * state.marketPrice;
                 state.inventory -= sold;
                 state.money += revenue;
-                log(`Giao dịch: Đã bán được ${sold} sản phẩm cho người dân Cà Mau, thu về ${revenue.toLocaleString()} VNĐ.`);
+                state.reputation += 1;
+                log(`Thương mại: Đã tiêu thụ ${sold} sản phẩm cho cư dân Cà Mau, doanh thu: +${revenue.toLocaleString()} VNĐ.`);
                 updateUI();
             } else {
-                log(`Cảnh báo: Không có hàng tồn kho để bán! Hãy sản xuất trước.`);
+                log(`Cảnh báo: Kho hàng trống rỗng, không có sản phẩm để bán cho NPC!`);
             }
         }
 
-        // Chạy khởi tạo giao diện lần đầu
         updateUI();
     </script>
 </body>
