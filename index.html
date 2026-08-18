@@ -3,350 +3,456 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cà Mau Empire - Ultimate Enterprise Simulator</title>
+    <title>Cà Mau Empire - 20 Core Systems Persistent Tycoon</title>
     <style>
         :root {
-            --bg-primary: #030712;
-            --bg-secondary: #0f172a;
+            --bg-base: #030712;
+            --bg-panel: #0f172a;
             --bg-card: #1e293b;
-            --accent-blue: #38bdf8;
+            --accent-cyan: #38bdf8;
             --accent-green: #10b981;
             --accent-gold: #f59e0b;
             --accent-red: #ef4444;
+            --accent-purple: #a855f7;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --border-color: #334155;
+            --border: #334155;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-base);
             color: var(--text-main);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 15px;
             height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
-        .app-container {
-            display: grid;
-            grid-template-columns: 320px 1fr 320px;
-            grid-template-rows: 60px 1fr;
-            gap: 15px;
-            height: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
         header {
-            grid-column: 1 / -1;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            align-items: center;
         }
         header h1 {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             background: linear-gradient(90deg, #38bdf8, #10b981, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .header-stats {
+        .macro-bar {
             display: flex;
-            gap: 20px;
-            font-size: 0.9rem;
+            gap: 15px;
+            font-size: 0.8rem;
         }
-        .panel {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            overflow-y: auto;
-        }
-        .panel h2 {
-            font-size: 1rem;
-            color: var(--accent-gold);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            margin-bottom: 6px;
-        }
-        .stat-val { font-weight: bold; color: var(--accent-green); }
-        .btn {
-            background-color: var(--accent-blue);
-            color: #000;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.85rem;
-            width: 100%;
-            margin-top: 5px;
-        }
-        .btn:hover { opacity: 0.85; transform: translateY(-1px); }
-        .btn-danger { background-color: var(--accent-red); color: #fff; }
-        .btn-success { background-color: var(--accent-green); color: #fff; }
-        .btn-warning { background-color: var(--accent-gold); color: #000; }
-        .log-box {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+        .macro-item b { color: var(--accent-green); }
+        .workspace {
+            display: grid;
+            grid-template-columns: 300px 1fr 320px;
+            gap: 10px;
             padding: 10px;
             flex-grow: 1;
-            overflow-y: auto;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
-            color: #38bdf8;
+            overflow: hidden;
+        }
+        .col {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
+            overflow-y: auto;
         }
-        .log-item { border-bottom: 1px dashed var(--border-color); padding-bottom: 4px; }
-        .region-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+        .card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
             border-radius: 6px;
             padding: 10px;
-            margin-bottom: 8px;
         }
-        .region-card h4 { color: var(--accent-blue); margin-bottom: 4px; font-size: 0.9rem; }
+        .card h3 {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+        }
+        .val { font-weight: bold; color: var(--accent-cyan); }
+        .btn {
+            background: var(--accent-cyan);
+            color: #000;
+            border: none;
+            padding: 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.7rem;
+            margin-top: 4px;
+            transition: 0.15s;
+        }
+        .btn:hover { opacity: 0.85; }
+        .btn-green { background: var(--accent-green); color: #fff; }
+        .btn-red { background: var(--accent-red); color: #fff; }
+        .btn-purple { background: var(--accent-purple); color: #fff; }
+        .log-box {
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 6px;
+            height: 220px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.68rem;
+            color: var(--accent-cyan);
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .log-line { border-bottom: 1px dashed #1e293b; padding-bottom: 2px; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
     <header>
-        <h1>CÀ MAU EMPIRE - ULTIMATE TYCOON</h1>
-        <div class="header-stats">
-            <div>Tiền mặt: <span id="top-money" class="stat-val">1,000,000,000 VNĐ</span></div>
-            <div>Uy tín: <span id="top-rep" class="stat-val">100 ⭐</span></div>
-            <div>Vòng thời gian: <span id="top-turn" class="stat-val">0</span></div>
+        <h1>CÀ MAU EMPIRE - 20 CORE SYSTEMS SIMULATOR</h1>
+        <div class="macro-bar">
+            <div class="macro-item">Tiền: <b id="m-money">1,000,000,000 VNĐ</b></div>
+            <div class="macro-item">Lạm phát: <b id="m-inflation">5.0%</b></div>
+            <div class="macro-item">Uy tín: <b id="m-rep">100 ⭐</b></div>
+            <div class="macro-item">Chu kỳ: <b id="m-tick">0</b></div>
         </div>
     </header>
 
-    <!-- Cột trái: Tài chính & Ngân hàng -->
-    <div class="panel">
-        <h2>📊 TÀI CHÍNH & NGÂN HÀNG</h2>
-        <div class="stat-row"><span>Tổng tài sản:</span> <span id="net-worth" class="stat-val">0</span></div>
-        <div class="stat-row"><span>Nợ vay ngân hàng:</span> <span id="bank-debt" style="color:var(--accent-red)">0 VNĐ</span></div>
-        <div class="stat-row"><span>Thuế định kỳ:</span> <span id="tax-due" style="color:var(--accent-gold)">0 VNĐ</span></div>
-        <button class="btn btn-warning" onclick="Game.bank.takeLoan()">Vay Vốn (100 Tr)</button>
-        <button class="btn btn-success" onclick="Game.bank.payLoan()">Trả Nợ (50 Tr)</button>
-        <button class="btn btn-danger" onclick="Game.government.payTax()">Nộp Thuế Nhà Nước</button>
-        
-        <h2>👥 NHÂN SỰ & QUẢN LÝ</h2>
-        <div class="stat-row"><span>Tổng nhân công:</span> <span id="total-workers">0</span></div>
-        <div class="stat-row"><span>Lương phải trả/vòng:</span> <span id="total-salary" style="color:var(--accent-red)">0 VNĐ</span></div>
-        <button class="btn" onclick="Game.labor.hireWorker()">Tuyển Thợ (5 Tr/người)</button>
-    </div>
+    <div class="workspace">
+        <!-- CỘT 1: Tài chính, Ngân hàng, Doanh nghiệp, Tập đoàn, Chứng khoán -->
+        <div class="col">
+            <div class="card">
+                <h3>🏦 5 & 9. Ngân Hàng & Chứng Khoán</h3>
+                <div class="row"><span>Nợ vay:</span> <span id="s-debt" class="val" style="color:var(--accent-red)">0 VNĐ</span></div>
+                <div class="row"><span>Vốn hóa thị trường:</span> <span id="s-marketcap" class="val">1 Tỷ VNĐ</span></div>
+                <button class="btn" onclick="Game.Bank.takeLoan()">Vay Vốn Ngân Hàng (100 Tr)</button>
+                <button class="btn btn-green" onclick="Game.Bank.repayLoan()">Trả Nợ (50 Tr)</button>
+                <button class="btn btn-purple" onclick="Game.Investment.issueIPO()">Phát Hành Cổ Phiếu (IPO)</button>
+            </div>
 
-    <!-- Cột giữa: Bản đồ chiến lược Cà Mau -->
-    <div class="panel">
-        <h2>🗺️ BẢN ĐỒ CHIẾN LƯỢC KINH TẾ CÀ MAU</h2>
-        <div id="map-container" style="flex-grow:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px;">
-            <!-- Render bằng JS -->
+            <div class="card">
+                <h3>🏢 3 & 19. Doanh Nghiệp & Tập Đoàn</h3>
+                <div class="row"><span>Loại hình:</span> <span id="s-corptype" class="val">Hộ Kinh Doanh</span></div>
+                <div class="row"><span>Công ty con:</span> <span id="s-subs" class="val">0</span></div>
+                <button class="btn" onclick="Game.Corporate.upgradeToHolding()">Nâng Cấp Tập Đoàn Đa Ngành</button>
+            </div>
+
+            <div class="card">
+                <h3>🤝 12 & 13. Thông Tin & Hợp Đồng B2B</h3>
+                <div class="row"><span>Hợp đồng đối tác:</span> <span id="s-contracts" class="val">0</span></div>
+                <button class="btn" onclick="Game.Contracts.signB2B()">Ký Hợp Đồng Cung Ứng B2B</button>
+            </div>
+        </div>
+
+        <!-- CỘT 2: Bản đồ, Sản xuất, Bất động sản, Lao động, Công nghệ -->
+        <div class="col">
+            <div class="card">
+                <h3>🌍, 7 & 8. Bản Đồ, BĐS & Sản Xuất</h3>
+                <div class="row"><span>Khu vực:</span> <span class="val">Phường 1 - Cà Mau</span></div>
+                <div class="row"><span>Đất sở hữu:</span> <span id="s-land" class="val">0 lô</span></div>
+                <div class="row"><span>Nhà máy:</span> <span id="s-factories" class="val">0 xưởng</span></div>
+                <div class="row"><span>Hàng tồn kho:</span> <span id="s-inventory" class="val">0 sp</span></div>
+                <button class="btn" onclick="Game.RealEstate.buyLand()">Mua Đất (20 Tr)</button>
+                <button class="btn btn-green" onclick="Game.Production.buildFactory()">Xây Xưởng (50 Tr)</button>
+            </div>
+
+            <div class="card">
+                <h3>🎓 & 15. Lao Động & Công Nghệ R&D</h3>
+                <div class="row"><span>Chuyên gia tuyển dụng:</span> <span id="s-workers" class="val">0 người</span></div>
+                <div class="row"><span>Cấp độ công nghệ:</span> <span id="s-tech" class="val">Cấp 1</span></div>
+                <button class="btn" onclick="Game.Labor.hireWorker()">Tuyển Chuyên Gia (5 Tr)</button>
+                <button class="btn btn-purple" onclick="Game.Tech.researchTech()">Nghiên Cứu Tự Động Hóa (30 Tr)</button>
+            </div>
+        </div>
+
+        <!-- CỘT 3: Chính phủ, Pháp lý, Tội phạm, Đời sống và Nhật ký -->
+        <div class="col">
+            <div class="card">
+                <h3>🏛️ & 14. Chính Phủ, Thuế & Pháp Lý</h3>
+                <div class="row"><span>Thuế cần nộp:</span> <span id="s-tax" class="val" style="color:var(--accent-gold)">0 VNĐ</span></div>
+                <div class="row"><span>Tranh chấp kiện tụng:</span> <span id="s-legal" class="val">Không có</span></div>
+                <button class="btn btn-green" onclick="Game.Government.payTax()">Thanh Toán Tiền Thuế</button>
+                <button class="btn btn-red" onclick="Game.Legal.resolveLawsuit()">Giải Quyết Tranh Chấp</button>
+            </div>
+
+            <div class="card">
+                <h3>🕵️ & 18. Tội Phạm Kinh Tế & Đời Sống</h3>
+                <div class="row"><span>Chỉ số điều tra (Heat):</span> <span id="s-heat" class="val">0%</span></div>
+                <div class="row"><span>Mức độ Stress:</span> <span id="s-stress" class="val">10% (Ổn định)</span></div>
+                <button class="btn btn-red" onclick="Game.Crime.launderMoney()">Rửa Tiền Ngầm (+30 Tr)</button>
+                <button class="btn" onclick="Game.Lifestyle.relax()">Nghỉ Dưỡng Thư Giãn</button>
+            </div>
+
+            <div class="card">
+                <h3>🌐 20. Nhật Ký Hệ Thống Persistent</h3>
+                <div id="log-box" class="log-box">
+                    <div class="log-line">[Hệ thống]: Đã tải hoàn tất toàn bộ 20 hệ thống lõi Cà Mau.</div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <!-- Cột phải: Nhật ký Vĩ mô & Thị trường -->
-    <div class="panel">
-        <h2>📜 NHẬT KÝ VĨ MÔ & SỰ KIỆN</h2>
-        <div id="log-box" class="log-box">
-            <div class="log-item">[Hệ thống]: Khởi tạo thành công thành phố Cà Mau. Sẵn sàng vận hành.</div>
-        </div>
-    </div>
-</div>
 
 <script>
     /**
-     * HỆ THỐNG ENGINE TRUNG TÂM (CORE ARCHITECTURE)
+     * TỔNG HỢP 20 HỆ THỐNG LÕI TRONG OBJECT GAME DUY NHẤT
      */
     const Game = {
         state: {
             money: 1000000000,
+            inflation: 0.05,
             reputation: 100,
+            tick: 0,
             debt: 0,
             taxOwed: 0,
+            marketCap: 1000000000,
+            corpType: "Hộ Kinh Doanh",
+            subsidiaries: 0,
+            contracts: 0,
+            land: 0,
+            factories: 0,
+            inventory: 0,
             workers: 0,
-            turn: 0,
-            regions: {
-                "P1": { name: "Phường 1 (Trung tâm thương mại)", factories: 0, land: 0, multiplier: 2.0 },
-                "P8": { name: "Phường 8 (Khu dân cư sầm uất)", factories: 0, land: 0, multiplier: 1.5 },
-                "TanThanh": { name: "Tân Thành (Vùng nguyên liệu nông nghiệp)", factories: 0, land: 0, multiplier: 1.2 },
-                "SongDoc": { name: "Sông Đốc (Cảng biển & Thủy sản)", factories: 0, land: 0, multiplier: 2.5 }
-            }
+            techLevel: 1,
+            heat: 0,
+            stress: 10,
+            legalDisputes: 0
         },
 
-        log: function(message) {
+        log: function(msg) {
             const box = document.getElementById('log-box');
-            const timeStr = new Date().toLocaleTimeString();
-            box.innerHTML = `<div class="log-item">[${timeStr}] ${message}</div>` + box.innerHTML;
+            box.innerHTML = `<div class="log-line">[Tick ${this.state.tick}] ${msg}</div>` + box.innerHTML;
         },
 
         updateUI: function() {
-            let assetVal = 0;
-            for(let key in this.state.regions) {
-                assetVal += (this.state.regions[key].factories * 50000000) + (this.state.regions[key].land * 20000000);
-            }
-            let netWorth = this.state.money + assetVal - this.state.debt;
-
-            document.getElementById('top-money').innerText = this.state.money.toLocaleString() + " VNĐ";
-            document.getElementById('top-rep').innerText = this.state.reputation + " ⭐";
-            document.getElementById('top-turn').innerText = this.state.turn;
-            document.getElementById('net-worth').innerText = netWorth.toLocaleString() + " VNĐ";
-            document.getElementById('bank-debt').innerText = this.state.debt.toLocaleString() + " VNĐ";
-            document.getElementById('tax-due').innerText = this.state.taxOwed.toLocaleString() + " VNĐ";
-            document.getElementById('total-workers').innerText = this.state.workers;
-            document.getElementById('total-salary').innerText = (this.state.workers * 1000000).toLocaleString() + " VNĐ";
-
-            this.renderMap();
+            document.getElementById('m-money').innerText = this.state.money.toLocaleString() + " VNĐ";
+            document.getElementById('m-inflation').innerText = (this.state.inflation * 100).toFixed(1) + "%";
+            document.getElementById('m-rep').innerText = this.state.reputation + " ⭐";
+            document.getElementById('m-tick').innerText = this.state.tick;
+            document.getElementById('s-debt').innerText = this.state.debt.toLocaleString() + " VNĐ";
+            document.getElementById('s-marketcap').innerText = this.state.marketCap.toLocaleString() + " VNĐ";
+            document.getElementById('s-corptype').innerText = this.state.corpType;
+            document.getElementById('s-subs').innerText = this.state.subsidiaries;
+            document.getElementById('s-contracts').innerText = this.state.contracts;
+            document.getElementById('s-land').innerText = this.state.land + " lô";
+            document.getElementById('s-factories').innerText = this.state.factories + " xưởng";
+            document.getElementById('s-inventory').innerText = this.state.inventory + " sp";
+            document.getElementById('s-workers').innerText = this.state.workers + " người";
+            document.getElementById('s-tech').innerText = `Cấp ${this.state.techLevel}`;
+            document.getElementById('s-tax').innerText = this.state.taxOwed.toLocaleString() + " VNĐ";
+            document.getElementById('s-legal').innerText = this.state.legalDisputes > 0 ? `${this.state.legalDisputes} vụ` : "Không có";
+            document.getElementById('s-heat').innerText = this.state.heat + "%";
+            document.getElementById('s-stress').innerText = this.state.stress + "%";
         },
 
-        renderMap: function() {
-            let html = '';
-            for(let id in this.state.regions) {
-                let r = this.state.regions[id];
-                html += `
-                    <div class="region-card">
-                        <h4>📍 ${r.name}</h4>
-                        <div class="stat-row"><span>Xưởng sản xuất:</span> <b>${r.factories}</b></div>
-                        <div class="stat-row"><span>Đất sở hữu:</span> <b>${r.land} lô</b></div>
-                        <button class="btn" onclick="Game.actions.buyLand('${id}')">Mua Đất (20 Tr)</button>
-                        <button class="btn btn-success" onclick="Game.actions.buildFactory('${id}')">Xây Xưởng (50 Tr)</button>
-                    </div>
-                `;
-            }
-            document.getElementById('map-container').innerHTML = html;
-        },
-
-        bank: {
-            takeLoan: function() {
-                Game.state.money += 100000000;
-                Game.state.debt += 120000000;
-                Game.log("Ngân hàng Cà Mau: Giải ngân khoản vay 100 triệu thành công.");
-                Game.updateUI();
-            },
-            payLoan: function() {
-                if(Game.state.money >= 50000000 && Game.state.debt > 0) {
-                    Game.state.money -= 50000000;
-                    Game.state.debt -= 50000000;
-                    Game.log("Ngân hàng Cà Mau: Đã thanh toán 50 triệu tiền nợ.");
-                    Game.updateUI();
-                } else {
-                    Game.log("Lỗi: Không đủ tiền hoặc không có khoản nợ tương ứng.");
-                }
-            }
-        },
-
-        government: {
-            payTax: function() {
-                if(Game.state.money >= Game.state.taxOwed && Game.state.taxOwed > 0) {
-                    Game.state.money -= Game.state.taxOwed;
-                    Game.log(`Cục thuế Cà Mau: Đã nộp đủ ${Game.state.taxOwed.toLocaleString()} VNĐ tiền thuế.`);
-                    Game.state.taxOwed = 0;
-                    Game.updateUI();
-                } else {
-                    Game.log("Lỗi: Không đủ tiền nộp thuế hoặc không nợ thuế.");
-                }
-            }
-        },
-
-        labor: {
-            hireWorker: function() {
-                let cost = 5000000;
-                if(Game.state.money >= cost) {
-                    Game.state.money -= cost;
-                    Game.state.workers++;
-                    Game.log("Nhân sự: Tuyển thành công 1 công nhân chuyên môn cao.");
-                    Game.updateUI();
-                } else {
-                    Game.log("Lỗi: Không đủ chi phí tuyển dụng.");
-                }
-            }
-        },
-
-        actions: {
-            buyLand: function(regionKey) {
+        // 1 & 8. Bản đồ & Bất động sản
+        RealEstate: {
+            buyLand: function() {
                 let cost = 20000000;
                 if(Game.state.money >= cost) {
                     Game.state.money -= cost;
-                    Game.state.regions[regionKey].land++;
-                    Game.log(`Bất động sản: Sở hữu thêm 1 lô đất tại ${Game.state.regions[regionKey].name}.`);
+                    Game.state.land++;
+                    Game.log("BĐS: Mua thành công 1 lô đất tại Phường 1.");
                     Game.updateUI();
-                } else {
-                    Game.log("Lỗi: Không đủ tiền mua đất.");
-                }
-            },
-            buildFactory: function(regionKey) {
-                let cost = 50000000;
-                if(Game.state.money >= cost) {
-                    Game.state.money -= cost;
-                    Game.state.regions[regionKey].factories++;
-                    Game.log(`Công nghiệp: Xây dựng hoàn tất 1 nhà máy tại ${Game.state.regions[regionKey].name}.`);
-                    Game.updateUI();
-                } else {
-                    Game.log("Lỗi: Không đủ tiền xây nhà máy.");
-                }
+                } else Game.log("Lỗi: Không đủ tiền mua đất.");
             }
         },
 
-        // Vòng lặp vĩ mô thời gian thực
-        tick: function() {
-            this.state.turn++;
-            
-            // Tính thu nhập từ các xưởng dựa theo hệ số vùng và công nhân
-            let totalFactories = 0;
-            let baseIncome = 0;
-            for(let key in this.state.regions) {
-                let r = this.state.regions[key];
-                totalFactories += r.factories;
-                baseIncome += (r.factories * 8000000 * r.multiplier);
+        // 7. Sản xuất & Chuỗi cung ứng
+        Production: {
+            buildFactory: function() {
+                let cost = 50000000;
+                if(Game.state.money >= cost && Game.state.land > Game.state.factories) {
+                    Game.state.money -= cost;
+                    Game.state.factories++;
+                    Game.log("Sản xuất: Xây dựng nhà máy hoàn tất trên quỹ đất.");
+                    Game.updateUI();
+                } else Game.log("Lỗi: Cần có quỹ đất trống hoặc không đủ 50 Tr VNĐ.");
+            }
+        },
+
+        // 5. Ngân hàng & Tín dụng
+        Bank: {
+            takeLoan: function() {
+                Game.state.money += 100000000;
+                Game.state.debt += 120000000;
+                Game.log("Ngân hàng: Giải ngân thành công khoản vay 100 Tr VNĐ.");
+                Game.updateUI();
+            },
+            repayLoan: function() {
+                if(Game.state.money >= 50000000 && Game.state.debt > 0) {
+                    Game.state.money -= 50000000;
+                    Game.state.debt -= 50000000;
+                    Game.log("Ngân hàng: Thanh toán 50 Tr tiền nợ gốc.");
+                    Game.updateUI();
+                } else Game.log("Lỗi: Không đủ tiền hoặc không có nợ.");
+            }
+        },
+
+        // 3 & 19. Doanh nghiệp & Tập đoàn
+        Corporate: {
+            upgradeToHolding: function() {
+                if(Game.state.money >= 200000000) {
+                    Game.state.money -= 200000000;
+                    Game.state.corpType = "Tập đoàn Đa ngành";
+                    Game.state.subsidiaries++;
+                    Game.log("Tập đoàn: Chuyển đổi thành công sang mô hình Holding & Công ty con.");
+                    Game.updateUI();
+                } else Game.log("Lỗi: Cần 200 Tr VNĐ để chuyển đổi mô hình.");
+            }
+        },
+
+        // 9. Chứng khoán & Đầu tư
+        Investment: {
+            issueIPO: function() {
+                let gain = 150000000;
+                Game.state.money += gain;
+                Game.state.marketCap += 300000000;
+                Game.log(`Chứng khoán: IPO thành công, huy động vốn +${gain.toLocaleString()} VNĐ.`);
+                Game.updateUI();
+            }
+        },
+
+        // 6. Thị trường lao động
+        Labor: {
+            hireWorker: function() {
+                if(Game.state.money >= 5000000) {
+                    Game.state.money -= 5000000;
+                    Game.state.workers++;
+                    Game.log("Lao động: Tuyển thành công chuyên gia kỹ thuật.");
+                    Game.updateUI();
+                } else Game.log("Lỗi: Không đủ chi phí tuyển dụng.");
+            }
+        },
+
+        // 15. Công nghệ & R&D
+        Tech: {
+            researchTech: function() {
+                if(Game.state.money >= 30000000) {
+                    Game.state.money -= 30000000;
+                    Game.state.techLevel++;
+                    Game.log(`R&D: Nâng cấp công nghệ sản xuất thành công lên cấp ${Game.state.techLevel}.`);
+                    Game.updateUI();
+                } else Game.log("Lỗi: Không đủ ngân sách nghiên cứu.");
+            }
+        },
+
+        // 10. Chính phủ & Thuế
+        Government: {
+            payTax: function() {
+                if(Game.state.money >= Game.state.taxOwed && Game.state.taxOwed > 0) {
+                    Game.state.money -= Game.state.taxOwed;
+                    Game.log(`Cục Thuế: Đã thanh toán đầy đủ ${Game.state.taxOwed.toLocaleString()} VNĐ.`);
+                    Game.state.taxOwed = 0;
+                    Game.updateUI();
+                } else Game.log("Lỗi: Không có nợ thuế hoặc không đủ tiền.");
+            }
+        },
+
+        // 13. Hợp đồng B2B
+        Contracts: {
+            signB2B: function() {
+                Game.state.contracts++;
+                Game.log("B2B: Ký kết thành công hợp đồng cung ứng định kỳ với đối tác lớn.");
+                Game.updateUI();
+            }
+        },
+
+        // 14. Pháp lý & Tranh chấp
+        Legal: {
+            resolveLawsuit: function() {
+                if(Game.state.money >= 20000000 && Game.state.legalDisputes > 0) {
+                    Game.state.money -= 20000000;
+                    Game.state.legalDisputes--;
+                    Game.log("Pháp lý: Đã dàn xếp ổn thỏa tranh chấp tại tòa án kinh tế.");
+                    Game.updateUI();
+                } else Game.log("Lỗi: Không có tranh chấp hoặc không đủ chi phí luật sư.");
+            }
+        },
+
+        // 17. Tội phạm kinh tế
+        Crime: {
+            launderMoney: function() {
+                let amount = 30000000;
+                Game.state.money += amount;
+                Game.state.heat += 20;
+                Game.log(`Tội phạm: Thực hiện rửa tiền ngầm thu về +${amount.toLocaleString()} VNĐ. Heat tăng!`);
+                Game.updateUI();
+            }
+        },
+
+        // 18. Đời sống người chơi
+        Lifestyle: {
+            relax: function() {
+                if(Game.state.stress > 10) {
+                    Game.state.stress -= 15;
+                    Game.log("Đời sống: Thư giãn xả stress thành công, tinh thần minh mẫn.");
+                    Game.updateUI();
+                } else Game.log("Đời sống: Bạn đang hoàn toàn thoải mái.");
+            }
+        },
+
+        // 2, 4, 11, 12, 16 & 20. Vòng lặp Persistent thời gian thực (Game Loop)
+        PersistentLoop: function() {
+            this.state.tick++;
+            this.state.stress = Math.min(100, this.state.stress + 2);
+
+            // Sản xuất & Tiêu thụ tự động (Hệ thống 2, 4, 7)
+            let production = this.state.factories * (8 * this.state.techLevel) + (this.state.workers * 4);
+            this.state.inventory += production;
+
+            let consumed = Math.min(this.state.inventory, 30 + (this.state.contracts * 15) + (this.state.subsidiaries * 20));
+            let revenue = consumed * 18000;
+            this.state.inventory -= consumed;
+            this.state.money += revenue;
+
+            // Chi phí lương & Lãi vay (Hệ thống 5 & 6)
+            let salary = this.state.workers * 2500000;
+            this.state.money -= salary;
+            if(this.state.debt > 0) {
+                let interest = Math.floor(this.state.debt * 0.02);
+                this.state.money -= interest;
             }
 
-            // Trừ lương công nhân
-            let salaryExpense = this.state.workers * 1000000;
-            this.state.money -= salaryExpense;
-
-            // Cộng doanh thu
-            this.state.money += baseIncome;
-            
-            // Tích lũy thuế định kỳ mỗi 5 vòng
-            if(this.state.turn % 5 === 0) {
-                let tax = Math.floor(baseIncome * 0.15);
+            // Thuế định kỳ (Hệ thống 10)
+            if(this.state.tick % 5 === 0) {
+                let tax = Math.floor(revenue * 0.15);
                 this.state.taxOwed += tax;
-                this.log(`[Hành chính]: Nhà nước phát thông báo thuế định kỳ: +${tax.toLocaleString()} VNĐ tiền thuế cần nộp.`);
+                this.log(`[Chính phủ]: Phát hành hóa đơn thuế kỳ hạn: +${tax.toLocaleString()} VNĐ.`);
             }
 
-            // Sự kiện ngẫu nhiên vĩ mô
-            if(Math.random() < 0.15) {
+            // Sự kiện vĩ mô ngẫu nhiên (Hệ thống 11)
+            if(Math.random() < 0.1) {
                 let events = [
-                    { msg: "Thị trường xuất khẩu thủy sản Cà Mau bùng nổ! Thu về +50 Tr VNĐ.", val: 50000000 },
-                    { msg: "Bão lớn đổ bộ vùng ven biển Cà Mau, tốn phí khắc phục sự cố.", val: -30000000 },
-                    { msg: "Chính quyền tỉnh hỗ trợ gói kích cầu doanh nghiệp.", val: 40000000 }
+                    { msg: "Thị trường Cà Mau bùng nổ nhu cầu tiêu dùng! Doanh thu tăng mạnh.", val: 50000000 },
+                    { msg: "Thanh tra kinh tế bất ngờ kiểm toán! Tăng chỉ số điều tra.", val: 0, heatInc: 10 }
                 ];
                 let ev = events[Math.floor(Math.random() * events.length)];
                 this.state.money += ev.val;
+                if(ev.heatInc) this.state.heat += ev.heatInc;
                 this.log(`[SỰ KIỆN VĨ MÔ]: ${ev.msg}`);
             }
 
-            this.log(`[Chu kỳ ${this.state.turn}]: Doanh thu nhà máy: +${baseIncome.toLocaleString()} | Lương thợ: -${salaryExpense.toLocaleString()}`);
+            this.log(`[Tick ${this.state.tick}]: Sản xuất ${production} | Tiêu thụ ${consumed} | Doanh thu +${revenue.toLocaleString()} VNĐ.`);
             this.updateUI();
         }
     };
 
-    // Khởi chạy vòng lặp mỗi 3 giây
-    setInterval(() => { Game.tick(); }, 3000);
+    // Khởi chạy thế giới Persistent chạy ngầm mỗi 3 giây
+    setInterval(() => { Game.PersistentLoop(); }, 3000);
 
-    // Khởi tạo lần đầu
+    // Khởi tạo giao diện lần đầu
     Game.updateUI();
 </script>
 </body>
