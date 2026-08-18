@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cà Mau Empire - Enterprise 20-System Persistent Economic Engine</title>
+    <title>Cà Mau Empire - Hardcore Macro Enterprise Engine v3.0</title>
     <style>
         :root {
-            --bg-deep: #020617;
+            --bg-deep: #030712;
             --bg-panel: #0f172a;
             --bg-card: #1e293b;
             --accent-cyan: #38bdf8;
@@ -31,59 +31,58 @@
         header {
             background: var(--bg-panel);
             border-bottom: 1px solid var(--border);
-            padding: 12px 24px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         header h1 {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             background: linear-gradient(90deg, #38bdf8, #10b981, #f59e0b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
-            letter-spacing: 0.5px;
         }
         .macro-ticker {
             display: flex;
-            gap: 24px;
-            font-size: 0.85rem;
-            background: rgba(15, 23, 42, 0.6);
-            padding: 6px 12px;
-            border-radius: 6px;
+            gap: 16px;
+            font-size: 0.75rem;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 4px 10px;
+            border-radius: 4px;
             border: 1px solid var(--border);
         }
         .ticker-val { font-weight: 700; color: var(--accent-green); }
-        .main-container {
+        .main-layout {
             display: grid;
-            grid-template-columns: 320px 1fr 340px;
-            gap: 12px;
-            padding: 12px;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 8px;
+            padding: 8px;
             flex-grow: 1;
             overflow: hidden;
         }
         .column {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
             overflow-y: auto;
-            padding-right: 4px;
+            padding-right: 2px;
         }
-        .column::-webkit-scrollbar { width: 5px; }
+        .column::-webkit-scrollbar { width: 4px; }
         .column::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
         .panel {
             background: var(--bg-panel);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .panel h3 {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--accent-gold);
             border-bottom: 1px solid var(--border);
-            padding-bottom: 6px;
-            margin-bottom: 10px;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -91,27 +90,27 @@
         .stat-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            margin-bottom: 6px;
+            font-size: 0.72rem;
+            margin-bottom: 4px;
         }
         .stat-val { font-weight: 600; color: var(--accent-cyan); }
         .btn-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-top: 8px;
+            gap: 4px;
+            margin-top: 6px;
         }
         .btn {
             background: var(--accent-cyan);
             color: #000;
             border: none;
-            padding: 8px;
-            border-radius: 5px;
+            padding: 6px;
+            border-radius: 4px;
             font-weight: 700;
             cursor: pointer;
             width: 100%;
-            font-size: 0.75rem;
-            transition: all 0.2s ease;
+            font-size: 0.68rem;
+            transition: all 0.15s ease;
         }
         .btn:hover { opacity: 0.85; transform: translateY(-1px); }
         .btn-full { grid-column: span 2; }
@@ -122,115 +121,132 @@
         .log-container {
             background: #000;
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 10px;
-            height: 280px;
+            border-radius: 4px;
+            padding: 8px;
+            height: 200px;
             overflow-y: auto;
             font-family: 'Fira Code', monospace;
-            font-size: 0.7rem;
+            font-size: 0.62rem;
             color: var(--accent-cyan);
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
-        .log-line { border-bottom: 1px dashed #1e293b; padding-bottom: 3px; }
+        .log-line { border-bottom: 1px dashed #1e293b; padding-bottom: 2px; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>CÀ MAU EMPIRE - 20 CORE SYSTEMS ENTERPRISE ENGINE</h1>
+        <h1>CÀ MAU EMPIRE - HARDCORE MACRO ENGINE</h1>
         <div class="macro-ticker">
-            <div>Vốn Tổng: <span id="ui-money" class="ticker-val">1,000,000,000 VNĐ</span></div>
-            <div>Lạm Phát: <span id="ui-inflation" class="ticker-val">5.0%</span></div>
-            <div>Uy Tín: <span id="ui-rep" class="ticker-val">100 ⭐</span></div>
+            <div>Tiền Mặt: <span id="ui-cash" class="ticker-val">1,000 Tr</span></div>
+            <div>Vốn Chủ: <span id="ui-equity" class="ticker-val">1,000 Tr</span></div>
+            <div>Cổ Phiếu: <span id="ui-stockprice" class="ticker-val">10,000đ</span></div>
+            <div>Tín Dụng: <span id="ui-credit" class="ticker-val">AAA</span></div>
             <div>Chu Kỳ: <span id="ui-tick" class="ticker-val">0</span></div>
         </div>
     </header>
 
-    <div class="main-container">
-        <!-- CỘT 1: Tài Chính, Ngân Hàng, Doanh Nghiệp, Tập Đoàn, Chứng Khoán -->
+    <div class="main-layout">
+        <!-- CỘT 1: Tài Chính, Kế Toán, Ngân Hàng, Chứng Khoán -->
         <div class="column">
             <div class="panel">
-                <h3>🏦 5 & 9. Ngân Hàng & Thị Trường Vốn</h3>
-                <div class="stat-row"><span>Dư nợ vay:</span> <span id="ui-debt" class="stat-val" style="color:var(--accent-red)">0 VNĐ</span></div>
-                <div class="stat-row"><span>Vốn hóa công ty:</span> <span id="ui-marketcap" class="stat-val">1,000,000,000 VNĐ</span></div>
+                <h3>🏦 Bảng Cân Đối & Ngân Hàng</h3>
+                <div class="stat-row"><span>Tổng Tài Sản:</span> <span id="ui-assets" class="stat-val">1,000 Tr</span></div>
+                <div class="stat-row"><span>Nợ Phải Trả:</span> <span id="ui-liabilities" class="stat-val" style="color:var(--accent-red)">0 Tr</span></div>
+                <div class="stat-row"><span>Lãi Suất Vay:</span> <span class="stat-val">9.5%/năm</span></div>
                 <div class="btn-group">
-                    <button class="btn" onclick="EnterpriseEngine.BankingSystem.takeLoan()">Vay 100 Tr</button>
-                    <button class="btn btn-green" onclick="EnterpriseEngine.BankingSystem.repayLoan()">Trả 50 Tr</button>
-                    <button class="btn btn-purple btn-full" onclick="EnterpriseEngine.CapitalMarketSystem.executeIPO()">Phát Hành Cổ Phiếu (IPO)</button>
+                    <button class="btn" onclick="HardcoreEngine.Finance.borrowBank()">Vay 500 Tr</button>
+                    <button class="btn btn-green" onclick="HardcoreEngine.Finance.repayBank()">Trả 200 Tr</button>
                 </div>
             </div>
 
             <div class="panel">
-                <h3>🏢 3 & 19. Doanh Nghiệp & Holding</h3>
-                <div class="stat-row"><span>Loại pháp nhân:</span> <span id="ui-corptype" class="stat-val">Hộ Kinh Doanh</span></div>
-                <div class="stat-row"><span>Công ty con:</span> <span id="ui-subsidiaries" class="stat-val">0 đơn vị</span></div>
-                <button class="btn btn-gold btn-full" onclick="EnterpriseEngine.CorporateSystem.upgradeToHolding()">Nâng Cấp Holding Đa Ngành</button>
+                <h3>📈 Thị Trường Chứng Khoán & Cổ Đông</h3>
+                <div class="stat-row"><span>Vốn Hóa Thị Trường:</span> <span id="ui-marketcap" class="stat-val">1,000 Tr</span></div>
+                <div class="stat-row"><span>EPS (Lợi nhuận/CP):</span> <span id="ui-eps" class="stat-val">0đ</span></div>
+                <div class="btn-group">
+                    <button class="btn btn-purple" onclick="HardcoreEngine.Market.executeIPO()">Phát Hành IPO</button>
+                    <button class="btn btn-gold" onclick="HardcoreEngine.Market.buybackShares()">Mua Lại Cổ Phiếu</button>
+                </div>
             </div>
 
             <div class="panel">
-                <h3>🤝 12 & 13. Thông Tin & Hợp Đồng B2B</h3>
-                <div class="stat-row"><span>Hợp đồng đối tác:</span> <span id="ui-contracts" class="stat-val">0 hợp đồng</span></div>
-                <div class="stat-row"><span>Chỉ số tình báo:</span> <span id="ui-intel" class="stat-val">Cơ bản</span></div>
+                <h3>🤝 Hợp Đồng B2B & Tình Báo</h3>
+                <div class="stat-row"><span>Hợp đồng đối tác:</span> <span id="ui-b2b" class="stat-val">0</span></div>
+                <div class="stat-row"><span>Cấp độ Tình báo:</span> <span id="ui-intel" class="stat-val">Level 1</span></div>
                 <div class="btn-group">
-                    <button class="btn" onclick="EnterpriseEngine.B2BSystem.signContract()">Ký Hợp Đồng B2B</button>
-                    <button class="btn btn-purple" onclick="EnterpriseEngine.IntelSystem.buyReport()">Mua Báo Cáo Thị Trường</button>
+                    <button class="btn" onclick="HardcoreEngine.B2B.signContract()">Ký Hợp Đồng Lớn</button>
+                    <button class="btn btn-purple" onclick="HardcoreEngine.B2B.upgradeIntel()">Nâng Cấp Tình Báo</button>
                 </div>
             </div>
         </div>
 
-        <!-- CỘT 2: Bản Đồ, Địa Lý, BĐS, Sản Xuất, Lao Động, Công Nghệ -->
+        <!-- CỘT 2: Địa Lý Cà Mau, Chuỗi Cung Ứng, Nhà Máy, R&D -->
         <div class="column">
             <div class="panel">
-                <h3>🌍, 7 & 8. Bản Đồ, BĐS & Chuỗi Cung Ứng</h3>
-                <div class="stat-row"><span>Khu vực hoạt động:</span> <span class="stat-val">Phường 1 - Cà Mau</span></div>
-                <div class="stat-row"><span>Quyền sử dụng đất:</span> <span id="ui-land" class="stat-val">0 m²</span></div>
-                <div class="stat-row"><span>Nhà máy vận hành:</span> <span id="ui-factories" class="stat-val">0 xưởng</span></div>
-                <div class="stat-row"><span>Tồn kho hàng hóa:</span> <span id="ui-inventory" class="stat-val">0 sản phẩm</span></div>
+                <h3>🌍 Bản Đồ Vùng Cà Mau & BĐS</h3>
+                <div class="stat-row"><span>Khu vực đang mở rộng:</span> <span id="ui-region" class="stat-val">Phường 1</span></div>
+                <div class="stat-row"><span>Tổng Quỹ Đất:</span> <span id="ui-land" class="stat-val">0 m²</span></div>
                 <div class="btn-group">
-                    <button class="btn" onclick="EnterpriseEngine.RealEstateSystem.acquireLand()">Mua Đất (20 Tr)</button>
-                    <button class="btn btn-green" onclick="EnterpriseEngine.SupplyChainSystem.buildFactory()">Xây Xưởng (50 Tr)</button>
+                    <button class="btn" onclick="HardcoreEngine.Map.expandRegion('Phường 8')">Mở Rộng Phường 8</button>
+                    <button class="btn btn-green" onclick="HardcoreEngine.Map.expandRegion('Năm Căn')">Mở Rộng Năm Căn</button>
+                    <button class="btn btn-gold btn-full" onclick="HardcoreEngine.Map.buyLandPlot()">Mua Đất Dự Án (50 Tr)</button>
                 </div>
             </div>
 
             <div class="panel">
-                <h3>🎓 & 15. Lao Động & Cây Công Nghệ</h3>
-                <div class="stat-row"><span>Nhân sự chất lượng cao:</span> <span id="ui-workers" class="stat-val">0 chuyên gia</span></div>
-                <div class="stat-row"><span>Trình độ R&D:</span> <span id="ui-tech" class="stat-val">Cấp độ 1</span></div>
+                <h3>🏭 Chuỗi Cung Ứng & Logistics</h3>
+                <div class="stat-row"><span>Kho nguyên liệu Tôm/Cua:</span> <span id="ui-raw" class="stat-val">0 tấn</span></div>
+                <div class="stat-row"><span>Nhà máy chế biến:</span> <span id="ui-factories" class="stat-val">0 xưởng</span></div>
+                <div class="stat-row"><span>Đội tàu thuyền vận tải:</span> <span id="ui-ships" class="stat-val">0 chiếc</span></div>
                 <div class="btn-group">
-                    <button class="btn" onclick="EnterpriseEngine.LaborSystem.hireExpert()">Tuyển Chuyên Gia (5 Tr)</button>
-                    <button class="btn btn-purple" onclick="EnterpriseEngine.ResearchSystem.upgradeTech()">Nghiên Cứu R&D (30 Tr)</button>
+                    <button class="btn" onclick="HardcoreEngine.SupplyChain.importRaw()">Nhập Nguyên Liệu</button>
+                    <button class="btn btn-green" onclick="HardcoreEngine.SupplyChain.buildFactory()">Xây Nhà Máy (100 Tr)</button>
+                    <button class="btn btn-purple btn-full" onclick="HardcoreEngine.SupplyChain.buyFleet()">Đóng Tàu Vận Tải (30 Tr)</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h3>🎓 Nhân Sự, Công Đoàn & R&D</h3>
+                <div class="stat-row"><span>Chuyên gia & Công nhân:</span> <span id="ui-workers" class="stat-val">0 người</span></div>
+                <div class="stat-row"><span>Chỉ số Hạnh phúc (Morale):</span> <span id="ui-morale" class="stat-val">100%</span></div>
+                <div class="stat-row"><span>Bằng sáng chế R&D:</span> <span id="ui-patents" class="stat-val">Cấp 1</span></div>
+                <div class="btn-group">
+                    <button class="btn" onclick="HardcoreEngine.HR.hireStaff()">Tuyển Dụng Nhân Sự</button>
+                    <button class="btn btn-red" onclick="HardcoreEngine.HR.increaseWages()">Tăng Lương (Giảm Đình Công)</button>
+                    <button class="btn btn-purple btn-full" onclick="HardcoreEngine.HR.doResearch()">Nghiên Cứu Sáng Chế (80 Tr)</button>
                 </div>
             </div>
         </div>
 
-        <!-- CỘT 3: Chính Phủ, Pháp Lý, Tội Phạm, Đời Sống, Vòng Lặp Persistent -->
+        <!-- CỘT 3: Chính Phủ, Thuế, Lobby, Ngầm & Nhật Ký -->
         <div class="column">
             <div class="panel">
-                <h3>🏛️ & 14. Chính Phủ, Thuế & Pháp Lý</h3>
-                <div class="stat-row"><span>Nghĩa vụ thuế:</span> <span id="ui-tax" class="stat-val" style="color:var(--accent-gold)">0 VNĐ</span></div>
-                <div class="stat-row"><span>Tranh chấp tòa án:</span> <span id="ui-legal" class="stat-val">Không có</span></div>
+                <h3>🏛️ Chính Phủ, Thuế & Lobby</h3>
+                <div class="stat-row"><span>Thuế Suất Hiện Tại:</span> <span id="ui-taxrate" class="stat-val">20%</span></div>
+                <div class="stat-row"><span>Nợ Thuế Phải Nộp:</span> <span id="ui-taxdebt" class="stat-val" style="color:var(--accent-gold)">0 Tr</span></div>
                 <div class="btn-group">
-                    <button class="btn btn-green" onclick="EnterpriseEngine.GovernmentSystem.payTaxes()">Nộp Thuế Nhà Nước</button>
-                    <button class="btn btn-red" onclick="EnterpriseEngine.LegalSystem.resolveDispute()">Giải Quyết Tranh Chấp</button>
+                    <button class="btn btn-green" onclick="HardcoreEngine.Gov.payTaxes()">Nộp Thuế Ngân Sách</button>
+                    <button class="btn btn-purple" onclick="HardcoreEngine.Gov.lobbyGovernment()">Lobby Giảm Thuế (50 Tr)</button>
                 </div>
             </div>
 
             <div class="panel">
-                <h3>🕵️ & 18. Tội Phạm Kinh Tế & Đời Sống</h3>
-                <div class="stat-row"><span>Chỉ số điều tra (Heat):</span> <span id="ui-heat" class="stat-val">0% (An toàn)</span></div>
-                <div class="stat-row"><span>Mức độ căng thẳng:</span> <span id="ui-stress" class="stat-val">10%</span></div>
+                <h3>🕵️ Kinh Tế Ngầm & Rủi Ro Pháp Lý</h3>
+                <div class="stat-row"><span>Chỉ số Điều tra (Heat):</span> <span id="ui-heat" class="stat-val" style="color:var(--accent-green)">0% (An toàn)</span></div>
+                <div class="stat-row"><span>Tài khoản Offshore:</span> <span id="ui-offshore" class="stat-val">0 Tr</span></div>
                 <div class="btn-group">
-                    <button class="btn btn-red" onclick="EnterpriseEngine.CrimeSystem.launderCapital()">Rửa Tiền Ngầm (+30 Tr)</button>
-                    <button class="btn btn-cyan" onclick="EnterpriseEngine.LifestyleSystem.relaxPlayer()">Nghỉ Dưỡng Thư Giãn</button>
+                    <button class="btn btn-red" onclick="HardcoreEngine.Underworld.launderMoney()">Hoạt Động Ngầm (+80 Tr)</button>
+                    <button class="btn btn-cyan" onclick="HardcoreEngine.Underworld.bribeOfficials()">Hối Lộ Quan Chức (40 Tr)</button>
                 </div>
             </div>
 
             <div class="panel">
-                <h3>🌐 20. Nhật Ký Hệ Thống Persistent</h3>
+                <h3>🌐 Nhật Ký Vận Hành Core</h3>
                 <div id="log-container" class="log-container">
-                    <div class="log-line">[System Initialization]: Khởi tạo hoàn tất kiến trúc 20 hệ thống lõi Cà Mau.</div>
+                    <div class="log-line">[System]: Khởi tạo hoàn tất hệ thống Macro Hardcore Cà Mau Empire.</div>
                 </div>
             </div>
         </div>
@@ -238,305 +254,313 @@
 
 <script>
     /**
-     * ============================================================================
-     * CÀ MAU EMPIRE - ENTERPRISE ARCHITECTURE ENGINE (20 CORE SYSTEMS INTEGRATED)
-     * ============================================================================
+     * CÀ MAU EMPIRE - HARDCORE MACRO ENTERPRISE ENGINE v3.0
      */
-    class EnterpriseEconomicEngine {
+    class HardcoreEnterpriseEngine {
         constructor() {
             this.state = {
-                money: 1000000000,
-                inflationRate: 0.05,
-                reputationScore: 100,
-                simulationTick: 0,
-                bankDebt: 0,
-                marketCapitalization: 1000000000,
-                corporateType: "Hộ Kinh Doanh",
-                subsidiariesCount: 0,
+                cash: 1000, // Triệu VNĐ
+                liabilities: 0,
+                assets: 1000,
+                equity: 1000,
+                stockPrice: 10000, // VNĐ / cổ phiếu
+                sharesOutstanding: 100000,
+                marketCap: 1000,
+                netIncomeLTM: 0,
+                eps: 0,
+                creditRating: "AAA",
+                tick: 0,
                 activeContracts: 0,
-                landArea: 0,
-                factoriesCount: 0,
-                inventoryStock: 0,
-                expertWorkers: 0,
-                techResearchLevel: 1,
-                pendingTaxObligation: 0,
-                legalDisputesCount: 0,
+                intelLevel: 1,
+                currentRegion: "Phường 1",
+                landArea: 0, // m2
+                rawMaterial: 0, // tấn
+                factories: 0,
+                ships: 0,
+                workers: 0,
+                morale: 100,
+                patents: 1,
+                taxRate: 0.20,
+                taxDebt: 0,
                 investigationHeat: 0,
-                playerStress: 10,
-                marketIntelligenceTier: 1
+                offshoreFunds: 0
             };
 
-            // Khởi tạo các Sub-Systems
-            this.BankingSystem = {
+            this.Finance = {
                 engine: this,
-                takeLoan: function() {
-                    this.engine.state.money += 100000000;
-                    this.engine.state.bankDebt += 122000000;
-                    this.engine.logMessage("Bank: Giải ngân thành công khoản tín dụng thương mại 100 Tr VNĐ.");
-                    this.engine.refreshInterface();
+                borrowBank: function() {
+                    let amount = 500;
+                    this.engine.state.cash += amount;
+                    this.engine.state.liabilities += amount;
+                    this.engine.recalculateBalanceSheet();
+                    this.engine.log(`Bank: Vay thành công ${amount} Tr VNĐ từ Ngân hàng Thương mại.`);
+                    this.engine.refreshUI();
                 },
-                repayLoan: function() {
-                    if (this.engine.state.money >= 50000000 && this.engine.state.bankDebt > 0) {
-                        this.engine.state.money -= 50000000;
-                        this.engine.state.bankDebt = Math.max(0, this.engine.state.bankDebt - 50000000);
-                        this.engine.logMessage("Bank: Đã thanh toán 50 Tr tiền nợ gốc ngân hàng.");
-                        this.engine.refreshInterface();
+                repayBank: function() {
+                    let amount = 200;
+                    if (this.engine.state.cash >= amount && this.engine.state.liabilities >= amount) {
+                        this.engine.state.cash -= amount;
+                        this.engine.state.liabilities -= amount;
+                        this.engine.recalculateBalanceSheet();
+                        this.engine.log(`Bank: Đã thanh toán gốc ${amount} Tr VNĐ tiền nợ.`);
+                        this.engine.refreshUI();
                     } else {
-                        this.engine.logMessage("Bank Error: Không đủ thanh khoản tiền mặt hoặc không có dư nợ.");
+                        this.engine.log(`Bank Error: Không đủ tiền mặt hoặc không có dư nợ tương ứng.`);
                     }
                 }
             };
 
-            this.CapitalMarketSystem = {
+            this.Market = {
                 engine: this,
                 executeIPO: function() {
-                    let valuationGain = 200000000;
-                    let cashRaised = 150000000;
-                    this.engine.state.money += cashRaised;
-                    this.engine.state.marketCapitalization += valuationGain;
-                    this.engine.state.corporateType = "Công Ty Cổ Phần (JSC)";
-                    this.engine.logMessage(`Market: IPO thành công trên sàn chứng khoán Cà Mau! Huy động +${cashRaised.toLocaleString()} VNĐ.`);
-                    this.engine.refreshInterface();
-                }
-            };
-
-            this.CorporateSystem = {
-                engine: this,
-                upgradeToHolding: function() {
-                    if (this.engine.state.money >= 300000000) {
-                        this.engine.state.money -= 300000000;
-                        this.engine.state.corporateType = "Tập Đoàn Holding Đa Ngành";
-                        this.engine.state.subsidiariesCount++;
-                        this.engine.logMessage("Corporate: Tái cấu trúc thành công thành Tập đoàn holding.");
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("Corporate Error: Cần tối thiểu 300 Tr VNĐ để thành lập tập đoàn.");
+                    let raised = 500;
+                    this.engine.state.cash += raised;
+                    this.engine.state.equity += raised;
+                    this.engine.recalculateBalanceSheet();
+                    this.engine.log(`Market: IPO thành công trên sàn chứng khoán, huy động ${raised} Tr VNĐ vốn cổ phần.`);
+                    this.engine.refreshUI();
+                },
+                buybackShares: function() {
+                    let cost = 150;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.stockPrice *= 1.15;
+                        this.engine.log(`Market: Thực hiện mua lại cổ phiếu quỹ, đẩy giá cổ phiếu tăng trưởng mạnh.`);
+                        this.engine.refreshUI();
                     }
                 }
             };
 
-            this.B2BSystem = {
+            this.B2B = {
                 engine: this,
                 signContract: function() {
                     this.engine.state.activeContracts++;
-                    this.engine.logMessage("B2B: Ký kết thành công hợp đồng cung ứng định kỳ dài hạn.");
-                    this.engine.refreshInterface();
-                }
-            };
-
-            this.IntelSystem = {
-                engine: this,
-                buyReport: function() {
-                    let cost = 10000000;
-                    if (this.engine.state.money >= cost) {
-                        this.engine.state.money -= cost;
-                        this.engine.state.marketIntelligenceTier++;
-                        this.engine.logMessage("Intel: Mua báo cáo tình báo kinh tế thành công. Tăng độ chính xác dự báo.");
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("Intel Error: Không đủ kinh phí mua báo cáo thị trường.");
+                    this.engine.log(`B2B: Ký kết hợp đồng cung ứng chiến lược mới.`);
+                    this.engine.refreshUI();
+                },
+                upgradeIntel: function() {
+                    let cost = 50;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.intelLevel++;
+                        this.engine.log(`Intel: Nâng cấp mạng lưới tình báo thị trường lên cấp ${this.engine.state.intelLevel}.`);
+                        this.engine.refreshUI();
                     }
                 }
             };
 
-            this.RealEstateSystem = {
+            this.Map = {
                 engine: this,
-                acquireLand: function() {
-                    let cost = 20000000;
-                    if (this.engine.state.money >= cost) {
-                        this.engine.state.money -= cost;
-                        this.engine.state.landArea += 500;
-                        this.engine.logMessage("Real Estate: Mở rộng thành công 500 m² đất thương mại tại Phường 1.");
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("Real Estate Error: Ngân sách không đủ mua đất.");
+                expandRegion: function(regionName) {
+                    this.engine.state.currentRegion = regionName;
+                    this.engine.log(`Map: Đã mở rộng địa bàn kinh doanh sang khu vực ${regionName}.`);
+                    this.engine.refreshUI();
+                },
+                buyLandPlot: function() {
+                    let cost = 50;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.landArea += 1000;
+                        this.engine.state.assets += cost;
+                        this.engine.log(`Map: Mua thành công 1,000 m² đất dự án quy hoạch.`);
+                        this.engine.refreshUI();
                     }
                 }
             };
 
-            this.SupplyChainSystem = {
+            this.SupplyChain = {
                 engine: this,
+                importRaw: function() {
+                    let cost = 20;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.rawMaterial += 50;
+                        this.engine.log(`Supply Chain: Nhập khẩu 50 tấn nguyên liệu thủy hải sản thô.`);
+                        this.engine.refreshUI();
+                    }
+                },
                 buildFactory: function() {
-                    let cost = 50000000;
-                    if (this.engine.state.money >= cost && this.engine.state.landArea >= (this.engine.state.factoriesCount + 1) * 500) {
-                        this.engine.state.money -= cost;
-                        this.engine.state.factoriesCount++;
-                        this.engine.logMessage("Supply Chain: Xây dựng hoàn tất nhà máy sản xuất mới.");
-                        this.engine.refreshInterface();
+                    let cost = 100;
+                    if (this.engine.state.cash >= cost && this.engine.state.landArea >= (this.engine.state.factories + 1) * 1000) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.factories++;
+                        this.engine.state.assets += cost;
+                        this.engine.log(`Supply Chain: Xây dựng hoàn tất nhà máy chế biến số ${this.engine.state.factories}.`);
+                        this.engine.refreshUI();
                     } else {
-                        this.engine.logMessage("Supply Chain Error: Thiếu quỹ đất trống hoặc không đủ 50 Tr VNĐ.");
+                        this.engine.log(`Supply Chain Error: Thiếu quỹ đất trống (cần 1,000 m²/xưởng) hoặc thiếu tiền mặt.`);
+                    }
+                },
+                buyFleet: function() {
+                    let cost = 30;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.ships++;
+                        this.engine.log(`Supply Chain: Đóng mới tàu thuyền vận tải logistics.`);
+                        this.engine.refreshUI();
                     }
                 }
             };
 
-            this.LaborSystem = {
+            this.HR = {
                 engine: this,
-                hireExpert: function() {
-                    let cost = 5000000;
-                    if (this.engine.state.money >= cost) {
-                        this.engine.state.money -= cost;
-                        this.engine.state.expertWorkers++;
-                        this.engine.logMessage("Labor: Tuyển dụng thành công 1 chuyên gia quản lý kỹ thuật cao cấp.");
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("Labor Error: Không đủ quỹ lương tuyển dụng.");
+                hireStaff: function() {
+                    let cost = 10;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.workers += 10;
+                        this.engine.log(`HR: Tuyển dụng thêm 10 nhân sự chuyên gia & kỹ thuật viên.`);
+                        this.engine.refreshUI();
+                    }
+                },
+                increaseWages: function() {
+                    if (this.engine.state.cash >= 15) {
+                        this.engine.state.cash -= 15;
+                        this.engine.state.morale = Math.min(100, this.engine.state.morale + 25);
+                        this.engine.log(`HR: Tăng phúc lợi và lương thưởng, nâng cao sự hài lòng nhân viên.`);
+                        this.engine.refreshUI();
+                    }
+                },
+                doResearch: function() {
+                    let cost = 80;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.patents++;
+                        this.engine.log(`R&D: Nghiên cứu thành công bằng sáng chế công nghệ mới cấp ${this.engine.state.patents}.`);
+                        this.engine.refreshUI();
                     }
                 }
             };
 
-            this.ResearchSystem = {
-                engine: this,
-                upgradeTech: function() {
-                    let cost = 30000000;
-                    if (this.engine.state.money >= cost) {
-                        this.engine.state.money -= cost;
-                        this.engine.state.techResearchLevel++;
-                        this.engine.logMessage(`R&D: Nâng cấp dây chuyền tự động hóa lên cấp ${this.engine.state.techResearchLevel}.`);
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("R&D Error: Ngân sách nghiên cứu không đủ.");
-                    }
-                }
-            };
-
-            this.GovernmentSystem = {
+            this.Gov = {
                 engine: this,
                 payTaxes: function() {
-                    if (this.engine.state.money >= this.engine.state.pendingTaxObligation && this.engine.state.pendingTaxObligation > 0) {
-                        this.engine.state.money -= this.engine.state.pendingTaxObligation;
-                        this.engine.logMessage(`Cục Thuế: Đã thanh toán đầy đủ nghĩa vụ: ${this.engine.state.pendingTaxObligation.toLocaleString()} VNĐ.`);
-                        this.engine.state.pendingTaxObligation = 0;
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("Government: Không có nợ thuế hoặc tài khoản không đủ tiền thanh toán.");
+                    if (this.engine.state.cash >= this.engine.state.taxDebt && this.engine.state.taxDebt > 0) {
+                        this.engine.state.cash -= this.engine.state.taxDebt;
+                        this.engine.log(`Cục Thuế: Đã thanh toán hoàn tất số thuế nợ: ${this.engine.state.taxDebt.toFixed(2)} Tr VNĐ.`);
+                        this.engine.state.taxDebt = 0;
+                        this.engine.refreshUI();
+                    }
+                },
+                lobbyGovernment: function() {
+                    let cost = 50;
+                    if (this.engine.state.cash >= cost && this.engine.state.taxRate > 0.05) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.taxRate = Math.max(0.05, this.engine.state.taxRate - 0.03);
+                        this.engine.log(`Lobby: Tác động chính sách thành công! Thuế suất giảm còn ${(this.engine.state.taxRate*100).toFixed(0)}%.`);
+                        this.engine.refreshUI();
                     }
                 }
             };
 
-            this.LegalSystem = {
+            this.Underworld = {
                 engine: this,
-                resolveDispute: function() {
-                    let cost = 15000000;
-                    if (this.engine.state.money >= cost && this.engine.state.legalDisputesCount > 0) {
-                        this.engine.state.money -= cost;
-                        this.engine.state.legalDisputesCount--;
-                        this.engine.logMessage("Legal: Thuê luật sư giải quyết thắng lợi tranh chấp tại tòa án kinh tế.");
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("Legal Error: Không có tranh chấp hoặc thiếu phí pháp lý.");
-                    }
-                }
-            };
-
-            this.CrimeSystem = {
-                engine: this,
-                launderCapital: function() {
-                    let gain = 30000000;
-                    this.engine.state.money += gain;
-                    this.engine.state.investigationHeat += 15;
-                    this.engine.logMessage(`Crime: Thực hiện rửa tiền ngầm thu về +${gain.toLocaleString()} VNĐ. Cảnh báo: Chỉ số điều tra tăng!`);
-                    this.engine.refreshInterface();
-                }
-            };
-
-            this.LifestyleSystem = {
-                engine: this,
-                relaxPlayer: function() {
-                    if (this.engine.state.playerStress > 10) {
-                        this.engine.state.playerStress = Math.max(0, this.engine.state.playerStress - 20);
-                        this.engine.logMessage("Lifestyle: Nghỉ dưỡng tại resort sinh thái Cà Mau, giảm mức độ căng thẳng.");
-                        this.engine.refreshInterface();
-                    } else {
-                        this.engine.logMessage("Lifestyle: Tâm trạng nhân vật hoàn toàn thư thái.");
+                launderMoney: function() {
+                    let gain = 80;
+                    this.engine.state.offshoreFunds += gain;
+                    this.engine.state.investigationHeat += 25;
+                    this.engine.log(`Underworld: Dòng tiền ngầm đem lại +${gain} Tr VNĐ tài sản ẩn. Cảnh báo Heat tăng!`);
+                    this.engine.refreshUI();
+                },
+                bribeOfficials: function() {
+                    let cost = 40;
+                    if (this.engine.state.cash >= cost) {
+                        this.engine.state.cash -= cost;
+                        this.engine.state.investigationHeat = Math.max(0, this.engine.state.investigationHeat - 35);
+                        this.engine.log(`Underworld: Đút lót thành công, hạ nhiệt chỉ số điều tra pháp lý.`);
+                        this.engine.refreshUI();
                     }
                 }
             };
         }
 
-        logMessage(message) {
+        recalculateBalanceSheet() {
+            // Assets = Cash + Land/Factories value
+            this.state.assets = this.state.cash + (this.state.landArea * 0.05) + (this.state.factories * 100) + (this.state.ships * 30);
+            this.state.equity = this.state.assets - this.state.liabilities;
+            this.state.marketCap = this.state.equity * (this.state.stockPrice / 10000);
+        }
+
+        log(msg) {
             const container = document.getElementById('log-container');
-            container.innerHTML = `<div class="log-line">[Tick ${this.state.simulationTick}] ${message}</div>` + container.innerHTML;
+            container.innerHTML = `<div class="log-line">[Tick ${this.state.tick}] ${msg}</div>` + container.innerHTML;
         }
 
-        refreshInterface() {
-            document.getElementById('ui-money').innerText = this.state.money.toLocaleString() + " VNĐ";
-            document.getElementById('ui-inflation').innerText = (this.state.inflationRate * 100).toFixed(1) + "%";
-            document.getElementById('ui-rep').innerText = this.state.reputationScore + " ⭐";
-            document.getElementById('ui-tick').innerText = this.state.simulationTick;
-            document.getElementById('ui-debt').innerText = this.state.bankDebt.toLocaleString() + " VNĐ";
-            document.getElementById('ui-marketcap').innerText = this.state.marketCapitalization.toLocaleString() + " VNĐ";
-            document.getElementById('ui-corptype').innerText = this.state.corporateType;
-            document.getElementById('ui-subsidiaries').innerText = this.state.subsidiariesCount + " đơn vị";
-            document.getElementById('ui-contracts').innerText = this.state.activeContracts + " hợp đồng";
-            document.getElementById('ui-intel').innerText = `Cấp ${this.state.marketIntelligenceTier}`;
-            document.getElementById('ui-land').innerText = this.state.landArea + " m²";
-            document.getElementById('ui-factories').innerText = this.state.factoriesCount + " xưởng";
-            document.getElementById('ui-inventory').innerText = this.state.inventoryStock + " sản phẩm";
-            document.getElementById('ui-workers').innerText = this.state.expertWorkers + " chuyên gia";
-            document.getElementById('ui-tech').innerText = `Cấp độ ${this.state.techResearchLevel}`;
-            document.getElementById('ui-tax').innerText = this.state.pendingTaxObligation.toLocaleString() + " VNĐ";
-            document.getElementById('ui-legal').innerText = this.state.legalDisputesCount > 0 ? `${this.state.legalDisputesCount} vụ` : "Không có";
-            document.getElementById('ui-heat').innerText = this.state.investigationHeat + "%";
-            document.getElementById('ui-stress').innerText = this.state.playerStress + "%";
+        refreshUI() {
+            document.getElementById('ui-cash').innerText = this.state.cash.toFixed(1) + " Tr";
+            document.getElementById('ui-equity').innerText = this.state.equity.toFixed(1) + " Tr";
+            document.getElementById('ui-stockprice').innerText = this.state.stockPrice.toLocaleString('vi-VN', {maximumFractionDigits:0}) + "đ";
+            document.getElementById('ui-credit').innerText = this.state.creditRating;
+            document.getElementById('ui-tick').innerText = this.state.tick;
+            document.getElementById('ui-assets').innerText = this.state.assets.toFixed(1) + " Tr";
+            document.getElementById('ui-liabilities').innerText = this.state.liabilities.toFixed(1) + " Tr";
+            document.getElementById('ui-marketcap').innerText = this.state.marketCap.toFixed(1) + " Tr";
+            document.getElementById('ui-eps').innerText = (this.state.netIncomeLTM / 1).toFixed(0) + "đ";
+            document.getElementById('ui-b2b').innerText = this.state.activeContracts;
+            document.getElementById('ui-intel').innerText = `Level ${this.state.intelLevel}`;
+            document.getElementById('ui-region').innerText = this.state.currentRegion;
+            document.getElementById('ui-land').innerText = this.state.landArea.toLocaleString() + " m²";
+            document.getElementById('ui-raw').innerText = this.state.rawMaterial + " tấn";
+            document.getElementById('ui-factories').innerText = this.state.factories + " xưởng";
+            document.getElementById('ui-ships').innerText = this.state.ships + " tàu";
+            document.getElementById('ui-workers').innerText = this.state.workers + " người";
+            document.getElementById('ui-morale').innerText = this.state.morale + "%";
+            document.getElementById('ui-patents').innerText = `Cấp ${this.state.patents}`;
+            document.getElementById('ui-taxrate').innerText = (this.state.taxRate * 100).toFixed(0) + "%";
+            document.getElementById('ui-taxdebt').innerText = this.state.taxDebt.toFixed(1) + " Tr";
+            
+            let heatEl = document.getElementById('ui-heat');
+            heatEl.innerText = this.state.investigationHeat + "%";
+            heatEl.style.color = this.state.investigationHeat > 60 ? "var(--accent-red)" : "var(--accent-green)";
+            
+            document.getElementById('ui-offshore').innerText = this.state.offshoreFunds + " Tr";
         }
 
-        /**
-         * VÒNG LẶP PERSISTENT 24/7 (Hệ thống 2, 4, 11, 16, 20)
-         */
-        executePersistentSimulationLoop() {
-            this.state.simulationTick++;
-            this.state.playerStress = Math.min(100, this.state.playerStress + 1);
-
-            // 1. Sản xuất tự động & Cung cầu thị trường
-            let productionOutput = this.state.factoriesCount * (12 * this.state.techResearchLevel) + (this.state.expertWorkers * 5);
-            this.state.inventoryStock += productionOutput;
-
-            let consumerDemand = 40 + (this.state.activeContracts * 25) + (this.state.subsidiariesCount * 35);
-            let unitsSold = Math.min(this.state.inventoryStock, consumerDemand);
-            let grossRevenue = unitsSold * 20000;
-
-            this.state.inventoryStock -= unitsSold;
-            this.state.money += grossRevenue;
-
-            // 2. Chi phí định kỳ & Lãi vay ngân hàng
-            let operationalPayroll = this.state.expertWorkers * 3000000;
-            this.state.money -= operationalPayroll;
-
-            if (this.state.bankDebt > 0) {
-                let interestPayment = Math.floor(this.state.bankDebt * 0.025);
-                this.state.money -= interestPayment;
+        runCoreLoop() {
+            this.state.tick++;
+            
+            // 1. Sản xuất và tiêu thụ chuỗi cung ứng
+            if (this.state.factories > 0 && this.state.rawMaterial >= this.state.factories * 2) {
+                let consumed = this.state.factories * 2;
+                this.state.rawMaterial -= consumed;
+                let productionRevenue = this.state.factories * 15 * this.state.patents * (this.state.ships > 0 ? 1.3 : 1.0);
+                this.state.cash += productionRevenue;
+                this.state.netIncomeLTM = productionRevenue;
+                
+                // Thuế định kỳ
+                let tax = productionRevenue * this.state.taxRate;
+                this.state.taxDebt += tax;
             }
 
-            // 3. Nghĩa vụ thuế nhà nước định kỳ
-            if (this.state.simulationTick % 5 === 0) {
-                let taxAssessment = Math.floor(grossRevenue * 0.15);
-                this.state.pendingTaxObligation += taxAssessment;
-                this.logMessage(`[Cục Thuế]: Phát hành định mức thuế kỳ hạn: +${taxAssessment.toLocaleString()} VNĐ.`);
+            // 2. Chi phí vận hành nhân sự & lãi vay
+            let payroll = this.state.workers * 1.5;
+            let interest = this.state.liabilities * 0.02;
+            this.state.cash -= (payroll + interest);
+
+            // 3. Giảm morale theo thời gian nếu không tăng lương
+            this.state.morale = Math.max(10, this.state.morale - 1);
+            if (this.state.morale < 40) {
+                this.log(`[Cảnh báo Nhân sự]: Nhân công đình công do chỉ số hạnh phúc quá thấp!`);
             }
 
-            // 4. Sự kiện khủng hoảng / Cơ hội vĩ mô ngẫu nhiên
-            if (Math.random() < 0.12) {
-                let macroEvents = [
-                    { message: "Thị trường Cà Mau bùng nổ sức mua dịp lễ! Lợi nhuận tăng vọt.", reward: 60000000 },
-                    { message: "Biến động logistics vận tải miền Tây! Phát sinh chi phí đột xuất.", reward: -30000000 }
-                ];
-                let selectedEvent = macroEvents[Math.floor(Math.random() * macroEvents.length)];
-                this.state.money += selectedEvent.reward;
-                this.logMessage(`[SỰ KIỆN VĨ MÔ]: ${selectedEvent.message}`);
+            // 4. Biến động Heat ngẫu nhiên
+            if (this.state.investigationHeat > 80 && Math.random() < 0.3) {
+                this.log(`[KHỦNG HOẢNG PHÁP LÝ]: Cảnh sát kinh tế đột kích trụ sở! Phạt tiền 100 Tr VNĐ.`);
+                this.state.cash = Math.max(0, this.state.cash - 100);
+                this.state.investigationHeat = 40;
             }
 
-            this.logMessage(`[Persistent Loop]: Sản xuất ${productionOutput} | Tiêu thụ ${unitsSold} | Doanh thu +${grossRevenue.toLocaleString()} VNĐ.`);
-            this.refreshInterface();
+            this.recalculateBalanceSheet();
+            this.refreshUI();
         }
     }
 
-    // Khởi tạo và chạy động cơ Persistent vĩnh viễn
-    const EnterpriseEngine = new EnterpriseEconomicEngine();
+    const HardcoreEngine = new HardcoreEnterpriseEngine();
     setInterval(() => {
-        EnterpriseEngine.executePersistentSimulationLoop();
-    }, 3000);
+        HardcoreEngine.runCoreLoop();
+    }, 2500);
 
-    EnterpriseEngine.refreshInterface();
+    HardcoreEngine.refreshUI();
 </script>
 </body>
 </html>
