@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khởi Nghiệp Tại Cà Mau - Economic Simulator</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #27ae60;
+            --bg: #f4f6f7;
+            --card-bg: #ffffff;
+            --text: #333333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary);
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #34495e;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .log-box {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 8px;
+            height: 150px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .log-item {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>TP. Cà Mau - Mô Phỏng Kinh Tế</h1>
+            <p>Thế giới mở, tự do định đoạt thị trường</p>
+        </header>
+
+        <!-- Bảng thông số chính -->
+        <div class="dashboard">
+            <div class="card">
+                <h3>Tài Chính Cá Nhân</h3>
+                <p>Tiền mặt: <span id="money" class="stat-value">10,000,000</span> VNĐ</p>
+            </div>
+            <div class="card">
+                <h3>Doanh Nghiệp (Xưởng Lương Thực)</h3>
+                <p>Cơ sở: <span id="factories" class="stat-value">0</span></p>
+                <p>Hàng tồn kho: <span id="inventory" class="stat-value">0</span> sản phẩm</p>
+            </div>
+            <div class="card">
+                <h3>Thị Trường Cà Mau (NPC)</h3>
+                <p>Nhu cầu mua mỗi ngày: <span id="npcDemand" class="stat-value">50</span></p>
+                <p>Giá thị trường: <span id="marketPrice" class="stat-value">15,000</span> VNĐ/sp</p>
+            </div>
+        </div>
+
+        <!-- Các hành động của người chơi -->
+        <div class="actions">
+            <button onclick="buildFactory()">Xây Xưởng Sản Xuất (5,000,000 VNĐ)</button>
+            <button onclick="produceGoods()">Sản Xuất Hàng Hóa (+10 sp)</button>
+            <button onclick="sellGoods()">Bán Hàng Cho NPC</button>
+        </div>
+
+        <!-- Nhật ký thị trường -->
+        <div class="card">
+            <h3>Nhật Ký Vận Hành Thị Trường</h3>
+            <div id="logBox" class="log-box">
+                <div class="log-item">[Hệ thống]: Chào mừng bạn đến với Cà Mau. Hãy xây dựng cơ sở sản xuất đầu tiên để bắt đầu!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dữ liệu trạng thái game
+        let state = {
+            money: 10000000,
+            factories: 0,
+            inventory: 0,
+            marketPrice: 15000,
+            npcDemand: 50
+        };
+
+        function updateUI() {
+            document.getElementById('money').innerText = state.money.toLocaleString();
+            document.getElementById('factories').innerText = state.factories;
+            document.getElementById('inventory').innerText = state.inventory;
+            document.getElementById('marketPrice').innerText = state.marketPrice.toLocaleString();
+        }
+
+        function log(message) {
+            const logBox = document.getElementById('logBox');
+            const time = new Date().toLocaleTimeString();
+            logBox.innerHTML += `<div class="log-item">[${time}] ${message}</div>`;
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function buildFactory() {
+            let cost = 5000000;
+            if (state.money >= cost) {
+                state.money -= cost;
+                state.factories += 1;
+                log(`Thành công! Đã xây dựng thêm 1 xưởng sản xuất tại khu vực ven TP. Cà Mau.`);
+                updateUI();
+            } else {
+                log(`Cảnh báo: Bạn không đủ tiền để xây xưởng! Cần ${cost.toLocaleString()} VNĐ.`);
+            }
+        }
+
+        function produceGoods() {
+            if (state.factories > 0) {
+                let produced = state.factories * 10;
+                state.inventory += produced;
+                log(`Sản xuất: Các xưởng tại Cà Mau vừa cho ra lò ${produced} sản phẩm lương thực.`);
+                updateUI();
+            } else {
+                log(`Cảnh báo: Bạn chưa có xưởng sản xuất nào cả! Hãy xây xưởng trước.`);
+            }
+        }
+
+        function sellGoods() {
+            if (state.inventory > 0) {
+                let sold = Math.min(state.inventory, state.npcDemand);
+                let revenue = sold * state.marketPrice;
+                state.inventory -= sold;
+                state.money += revenue;
+                log(`Giao dịch: Đã bán được ${sold} sản phẩm cho người dân Cà Mau, thu về ${revenue.toLocaleString()} VNĐ.`);
+                updateUI();
+            } else {
+                log(`Cảnh báo: Không có hàng tồn kho để bán! Hãy sản xuất trước.`);
+            }
+        }
+
+        // Chạy khởi tạo giao diện lần đầu
+        updateUI();
+    </script>
+</body>
+</html>
